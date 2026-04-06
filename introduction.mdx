@@ -1,0 +1,68 @@
+---
+title: "Introduction"
+description: "An overview of the Raziel MUGEN character project — what it is, where it comes from, and what's currently implemented."
+---
+
+Raziel is a fan-made playable character for the **MUGEN** fighting game engine. This project brings Raziel in his iconic **spectral (blue) form** to MUGEN — complete with the Soul Reaver blade overlay system, multiple palette variants, and a full normal move set.
+
+<Note>
+  This project is in early development. Many features are still being added, animations are subject to change, and not all planned specials and supers are implemented yet. Check the [Roadmap](/project/roadmap) to see what's coming.
+</Note>
+
+## Origin: Legacy of Kain: Soul Reaver
+
+Raziel is the protagonist of *Legacy of Kain: Soul Reaver* (1999, Crystal Dynamics). Once a vampire lieutenant of Kain, Raziel is executed and reborn as a wraith — a spectral being who feeds on souls rather than blood. His spectral form, with its tattered wings, gaunt blue body, and the ability to wield the Soul Reaver blade, is the basis for this MUGEN character.
+
+This project portrays Raziel exclusively in his **spectral state**: the pale blue wraith form he inhabits when traversing the spirit realm.
+
+## What this character includes
+
+<CardGroup cols={2}>
+  <Card title="Full normal move set" icon="swords">
+    Standing, crouching, and aerial normals covering all standard MUGEN attack buttons.
+  </Card>
+  <Card title="Soul Reaver overlay system" icon="wand-magic-sparkles">
+    A palette-driven visual overlay that keeps the Soul Reaver blade visible during idle, walk, and crouch states.
+  </Card>
+  <Card title="Three palettes" icon="palette">
+    Three `.act` palette files — `raziel.act`, `raziel2.act`, and `raziel3.act` — selectable in-game.
+  </Card>
+  <Card title="Throw system" icon="hand">
+    Forward and back throws with full animation and hit states.
+  </Card>
+  <Card title="Taunt" icon="star">
+    A character-appropriate taunt animation tied to the start button.
+  </Card>
+  <Card title="Run forward and back" icon="person-running">
+    Run and back-dash locomotion to keep up with MUGEN's movement expectations.
+  </Card>
+  <Card title="Arcade mode intro" icon="film">
+    A storyboard intro sequence that plays when Raziel is selected in arcade mode.
+  </Card>
+</CardGroup>
+
+## How the sprites were made
+
+All sprites in this project were **created from scratch using AI image generation tools**. No rips from the original game were used. The pipeline combined outputs from several tools to reach a consistent style and animation quality:
+
+- **ChatGPT** — concept iteration and sprite refinement prompts
+- **Grok** — alternative generations and style variation
+- **Gemini** — additional generation passes
+- **A2E** — animation-to-expression tooling
+- **Vidu** — video-based motion reference for animation flow
+
+Each sprite was then manually reviewed, cropped, and indexed to fit MUGEN's palette and sprite sheet format.
+
+## Code base and lineage
+
+The character's code builds on earlier Raziel implementations created by **Raziel Seylos** and **Dave Rattlz**. Their foundational work on state machines, hit definitions, and movement properties informed the structure of this project. The code has since been significantly reworked to accommodate the new sprites, the Soul Reaver overlay system, and the expanded palette setup.
+
+<Info>
+  If you're a developer looking to extend or modify this character, see the [Development](/development/file-structure) section for a full breakdown of the file structure and how the CNS logic is organized.
+</Info>
+
+## Project philosophy
+
+This project exists for the MUGEN community. It is **completely free** — free to download, modify, redistribute, and build on. The MUGEN scene has always thrived on shared work and open collaboration, and this character is offered in that spirit.
+
+Credit is appreciated but not required. If you use sprites or code from this project in your own work, a mention in your readme or credits screen is welcome.

@@ -1,0 +1,151 @@
+---
+title: "Move list"
+description: "Complete input reference for all of Raziel's normals, movement options, throws, and taunt."
+---
+
+## Input notation legend
+
+| Symbol | Meaning |
+|---|---|
+| `F` | Forward (toward opponent) |
+| `B` | Back (away from opponent) |
+| `D` | Down |
+| `U` | Up |
+| `x` | Light punch (top row, left) |
+| `y` | Medium punch (top row, middle) |
+| `z` | Strong punch (top row, right) |
+| `a` | Light kick (bottom row, left) |
+| `b` | Medium kick (bottom row, middle) |
+| `c` | Strong kick (bottom row, right) |
+| `s` | Start button (taunt) |
+| `+` | Both buttons simultaneously |
+| `/` | Or — any one of the listed options |
+| `~` | Quickly followed by (used in charge motions) |
+
+MUGEN button layout:
+
+```text
+x  y  z
+a  b  c
+      s
+```
+
+---
+
+## Movement
+
+| Action | Input |
+|---|---|
+| Run forward | `F, F` (double-tap forward) |
+| Run backward | `B, B` (double-tap back) |
+
+---
+
+## Recovery
+
+Press any two simultaneous buttons from the same row, or one from each row:
+
+| Option | Input |
+|---|---|
+| Recovery | `x+y` / `y+z` / `x+z` / `a+b` / `b+c` / `a+c` |
+
+---
+
+## Taunt
+
+| Action | Input |
+|---|---|
+| Taunt | `s` |
+
+---
+
+## Throw
+
+<Info>
+  The throw requires proximity to the opponent. It works against both standing and crouching opponents (state 800).
+</Info>
+
+| Action | Input | Damage | Range |
+|---|---|---|---|
+| Throw | Hold `F` or `B` + `y` or `z` (near opponent) | 78 | Close range |
+
+Damage value sourced from `TargetLifeAdd` in state 810.
+
+---
+
+## Standing normals
+
+Execute by pressing the button without holding down.
+
+| Move | Input | State |
+|---|---|---|
+| Stand light punch | `x` | 200 |
+| Stand medium punch | `y` | 210 |
+| Stand strong punch | `z` | 220 |
+| Stand light kick | `a` | 230 |
+| Stand medium kick | `b` | 240 |
+| Stand strong kick | `c` | 250 |
+
+### Stand light punch — hit data
+
+The stand light punch (`x`, state 200) has the following hit properties:
+
+| Property | Value |
+|---|---|
+| Attribute | Standing, Normal Attack |
+| Damage | 23 (0 chip) |
+| Animation type | Light |
+| Guard flag | Mid / Air |
+| Hit flag | Mid / Air / Fall |
+| Priority | 3, Hit |
+| Pause time | 8 attacker / 8 opponent |
+| Spark | 0 |
+| Ground hit type | High |
+| Ground slide time | 5 ticks |
+| Ground hit time | 12 ticks |
+| Ground velocity | -4 |
+| Air hit type | High |
+| Air velocity | -1.4, -3 |
+| Air hit time | 12 ticks |
+
+---
+
+## Crouching normals
+
+Execute by pressing the button while holding down.
+
+| Move | Input | State | Notes |
+|---|---|---|---|
+| Crouch light punch | `D` + `x` | 400 | — |
+| Crouch medium punch | `D` + `y` | 410 | — |
+| Crouch strong punch | `D` + `z` | 420 | — |
+| Crouch light kick | `D` + `a` | 430 | — |
+| Crouch medium kick | `D` + `b` | 440 | — |
+| Crouch strong kick | `D` + `c` | 450 | Trip type |
+
+<Note>
+  Crouch strong kick (state 450) is a trip-type attack. It is typically used to knock the opponent down for a follow-up.
+</Note>
+
+---
+
+## Aerial normals
+
+Execute by pressing the button while airborne (after a jump or air jump).
+
+| Move | Input | State |
+|---|---|---|
+| Jump light punch | `x` (in air) | 600 |
+| Jump medium punch | `y` (in air) | 610 |
+| Jump strong punch | `z` (in air) | 620 |
+| Jump light kick | `a` (in air) | 630 |
+| Jump medium kick | `b` (in air) | 640 |
+| Jump strong kick | `c` (in air) | 650 |
+
+---
+
+## Special moves and supers
+
+<Note>
+  Raziel has no special moves or super attacks in the current build. The command file (`raziel.cmd`) currently covers normals, movement, throws, and the taunt only. Special moves and supers are planned for a future development phase once the normal move set and Soul Reaver overlay system are fully established.
+</Note>

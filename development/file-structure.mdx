@@ -1,0 +1,117 @@
+---
+title: "File structure"
+description: "A guide to every file in the Raziel MUGEN character package and what each one does."
+---
+
+The character is packaged as a single folder — `Raziel_Char/` — that you drop into your MUGEN `chars/` directory. Here is the full layout:
+
+```text
+Raziel_Char/
+├── raziel.def                        — Main character definition
+├── assets/
+│   ├── raziel.sff                    — Compiled sprite sheet
+│   ├── raziel.snd                    — Sound bank
+│   ├── raziel.air                    — Animation sequences
+│   └── storyboards/
+│       └── intro/
+│           ├── intro.def             — Intro storyboard definition
+│           └── intro.sff             — Intro storyboard sprites
+├── logic/
+│   ├── raziel.cmd                    — Input commands and state triggers
+│   ├── raziel_core.cns               — Character data, sizes, and core states
+│   ├── raziel_reaver_visuals.cns     — Soul Reaver overlay state controllers
+│   ├── raziel_fx.cns                 — Visual effects (placeholder)
+│   ├── raziel_normals.cns            — Normal attack states (placeholder)
+│   ├── raziel_reaver_system.cns      — Reaver system logic (placeholder)
+│   ├── raziel_specials.cns           — Special moves (placeholder)
+│   └── raziel_throws.cns             — Throw states (placeholder)
+├── palette/
+│   ├── raziel.act                    — Palette 1 (default blue spectral)
+│   ├── raziel2.act                   — Palette 2
+│   ├── raziel3.act                   — Palette 3
+│   ├── 1mr.act                       — Extra palette variant
+│   └── 2sr.act                       — Extra palette variant
+└── Sprites/                          — Source BMP files (not loaded by MUGEN directly)
+    ├── main.png
+    ├── 01.pcx
+    └── Agachado/                     — Crouching pose source frames
+        └── ...
+```
+
+## raziel.def — the character definition
+
+This is the entry point MUGEN reads first. It links every other file together.
+
+```ini raziel.def
+[Info]
+name="Raziel"
+displayname="Raziel"
+versiondate=17/02/2026
+mugenversion=1.0
+author="Mugens World"
+pal.defaults=1,2
+
+[Files]
+sprite=assets/raziel.sff
+sound=assets/raziel.snd
+anim=assets/raziel.air
+cmd=logic/raziel.cmd
+cns=logic/raziel_core.cns
+st=logic/raziel_core.cns
+stcommon=common1.cns
+pal1=palette/raziel.act
+pal2=palette/raziel2.act
+pal3=palette/raziel3.act
+
+[Arcade]
+intro.storyboard=assets/storyboards/intro/intro.def
+```
+
+## File types at a glance
+
+<AccordionGroup>
+  <Accordion title=".def — Definition file">
+    The character's manifest. Declares the character's name, MUGEN version compatibility, and the paths to all other files. Every MUGEN character has exactly one `.def`.
+  </Accordion>
+  <Accordion title=".sff — Sprite file">
+    A compiled binary container holding all character sprites (indexed by group and image number). Created and edited with tools like Fighter Factory or Mugen Sprite Viewer. The source BMP files in `Sprites/` are the raw input before compilation.
+  </Accordion>
+  <Accordion title=".snd — Sound file">
+    A compiled binary sound bank. Each sound is indexed by group and sound number, then referenced by `hitsound`, `guardsound`, and `PlaySnd` controllers in the `.cns` files.
+  </Accordion>
+  <Accordion title=".air — Animation file">
+    Plain text. Defines animation actions by chaining together sprite frames with durations and offsets. Each `[Begin Action N]` block corresponds to an animation number referenced in `.cns` state definitions (`anim = N`).
+  </Accordion>
+  <Accordion title=".cmd — Command file">
+    Plain text. Two sections: (1) `[Command]` blocks that map button/direction sequences to named commands, and (2) `[Statedef -1]` state entries that fire `ChangeState` when a command is matched.
+  </Accordion>
+  <Accordion title=".cns — Constants and states file">
+    Plain text. Contains `[Data]`, `[Size]`, `[Velocity]`, and `[Movement]` blocks, plus all `[Statedef N]` / `[State N, ...]` blocks that define behavior. Multiple `.cns` files can be loaded; here `raziel_core.cns` is primary.
+  </Accordion>
+  <Accordion title=".act — Palette file">
+    A 256-color Adobe Color Table file. Each entry maps a palette index to an RGB value. MUGEN characters support up to 12 palettes; Raziel currently defines 3.
+  </Accordion>
+</AccordionGroup>
+
+## Logic files
+
+`raziel_core.cns` is the main logic file. It is referenced twice in `raziel.def`:
+
+- `cns=logic/raziel_core.cns` — loads the `[Data]`, `[Size]`, `[Velocity]`, `[Movement]` blocks and all state definitions
+- `st=logic/raziel_core.cns` — tells MUGEN to use this file for the character's own state execution
+
+`stcommon=common1.cns` pulls in MUGEN's built-in common states (getting hit, falling, landing, etc.) so you don't need to redefine them.
+
+The remaining `.cns` files are **placeholders** — they currently contain only a filename comment. They are listed in order to reserve namespace for future implementation:
+
+| File | Planned content |
+|---|---|
+| `raziel_normals.cns` | Detailed HitDef data for all normal attacks |
+| `raziel_specials.cns` | Special move states (quarter-circle, charge, etc.) |
+| `raziel_throws.cns` | Throw animation states |
+| `raziel_reaver_system.cns` | Soul Reaver power/charge system logic |
+| `raziel_fx.cns` | Particle and visual effect states |
+
+<Note>
+  To add logic from a placeholder file, implement it and then add a `cns=logic/filename.cns` line to `raziel.def`.
+</Note>

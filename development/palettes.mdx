@@ -1,0 +1,77 @@
+---
+title: "Palettes"
+description: "How Raziel's palette system works, including the Soul Reaver's independent palette and how to create new variants."
+---
+
+Raziel ships with three palettes and two additional variants. Palettes control both the character's sprite colors and — independently — the Soul Reaver weapon overlay colors.
+
+## Palette files
+
+| Slot | File | Notes |
+|---|---|---|
+| pal1 | `palette/raziel.act` | Default blue spectral form |
+| pal2 | `palette/raziel2.act` | Secondary variant |
+| pal3 | `palette/raziel3.act` | Tertiary variant |
+| — | `palette/1mr.act` | Extra variant (not assigned by default) |
+| — | `palette/2sr.act` | Extra variant (not assigned by default) |
+
+These are referenced in `raziel.def`:
+
+```ini raziel.def
+pal.defaults=1,2
+pal1=palette/raziel.act
+pal2=palette/raziel2.act
+pal3=palette/raziel3.act
+```
+
+`pal.defaults=1,2` means MUGEN assigns palette 1 to player 1 and palette 2 to player 2 when both players pick Raziel.
+
+## Selecting a palette in-game
+
+In most MUGEN builds, hold a button while confirming your character selection on the character select screen to cycle through palettes. The exact button depends on your MUGEN configuration, but the standard is:
+
+- No button held → palette 1
+- Hold `x` → palette 2
+- Hold `y` → palette 3
+
+## The Soul Reaver's independent palette
+
+The Soul Reaver weapon overlay is an `Explod` sprite that uses `ownpal = 1`, meaning it has its **own palette separate from the character**. This is how the Reaver can have a distinct glow color that doesn't depend on the character's palette slot.
+
+The Explod IDs are split by the character's active palette number:
+
+| Character palette | Reaver Explod IDs | State covered |
+|---|---|---|
+| Palette 1 | 7000–7007 | Idle, walk, crouch, crouch transitions |
+| Palette 2 | 7100–7107 | Idle, walk, crouch, crouch transitions |
+
+When you add a new palette variant that needs a different Reaver color, you add new animation blocks (e.g., 7200–7207) in `raziel.air` and new `Explod` / `RemoveExplod` controllers in `raziel_core.cns` triggered on `PalNo = 3`.
+
+## Creating a new palette
+
+<Steps>
+  <Step title="Open an existing .act file">
+    Use an image editor that supports indexed 256-color mode — GIMP, Aseprite, or Photoshop. Open `palette/raziel.act` as a starting point.
+  </Step>
+  <Step title="Edit the color entries">
+    Modify the palette colors. The character's sprite indices are fixed; you are only changing what color each index maps to. Keep the background/transparency index (usually index 0) unchanged.
+  </Step>
+  <Step title="Export as .act">
+    Save as an Adobe Color Table (`.act`) file — 256 entries × 3 bytes (RGB) = 768 bytes exactly.
+  </Step>
+  <Step title="Register in raziel.def">
+    Add a new `palN=` line and optionally update `pal.defaults`:
+
+    ```ini raziel.def
+    pal4=palette/raziel4.act
+    ```
+  </Step>
+</Steps>
+
+<Info>
+  `.act` files are exactly 768 bytes: 256 colors × 3 bytes each (R, G, B). Some editors append a 2-byte footer indicating the number of used colors — make sure your export matches what MUGEN expects. Fighter Factory can validate palette files.
+</Info>
+
+<Tip>
+  To create a Reaver color variant for your new palette, duplicate an existing animation block in `raziel.air` (e.g., copy action 7000 to 7200), recolor the Reaver sprites in `raziel.sff`, and add corresponding `Explod`/`RemoveExplod` controllers in `raziel_core.cns` gated on `PalNo = 4`.
+</Tip>

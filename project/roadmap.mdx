@@ -1,0 +1,106 @@
+---
+title: "Roadmap"
+description: "Development status, what's already working, what's still missing, and where the project is heading."
+---
+
+Raziel for MUGEN is a community passion project developed in spare time. This page reflects the current state of the character and the direction planned for future updates.
+
+<Warning>
+  This character is in **very early development**. The core systems are in place and the character is fully playable, but many animations, special moves, and features are still missing. Expect gaps.
+</Warning>
+
+## Current status
+
+<Info>
+  The current release is the **Spectral Blue form** of Raziel — his post-resurrection wraith appearance from *Legacy of Kain: Soul Reaver*. A full normal move set, the Soul Reaver overlay system, and basic navigation moves are implemented. Special moves and AI have not yet been added.
+</Info>
+
+## What's implemented
+
+<AccordionGroup>
+  <Accordion title="Normal move set" icon="hand-fist" defaultOpen={true}>
+    A complete set of 18 normal attacks is in place:
+
+    - **6 standing normals** — light, medium, and heavy punches and kicks
+    - **6 crouching normals** — full low attack coverage
+    - **6 aerial normals** — jump-in and air-to-air options
+
+    All normals have hitboxes, hurtboxes, and basic hit reactions.
+  </Accordion>
+  <Accordion title="Throw system" icon="arrows-to-circle">
+    A functioning throw with its own animation and release state. Grabs the opponent on proximity and executes a throw sequence.
+  </Accordion>
+  <Accordion title="Taunt" icon="face-grin-wink">
+    A dedicated taunt state with animation, accessible in-game.
+  </Accordion>
+  <Accordion title="Movement" icon="person-running">
+    Forward run and backward run are implemented, allowing Raziel to dash across the screen at speed.
+  </Accordion>
+  <Accordion title="Soul Reaver overlay system" icon="wand-magic-sparkles">
+    A palette-driven visual system that renders the Soul Reaver blade as a sprite overlay on top of Raziel. The overlay is active during:
+
+    - Idle stance
+    - Walk (forward and backward)
+    - Crouch
+
+    Two palette variants (palettes 1 and 2) have dedicated Reaver overlay animations. Palette 3 is available for the character sprite but does not yet have a separate Reaver overlay.
+  </Accordion>
+  <Accordion title="Intro storyboard" icon="film">
+    An arcade mode intro sequence plays when starting a match in arcade/story mode, presenting a brief storyboard that sets up Raziel's entrance.
+  </Accordion>
+  <Accordion title="Palette variants" icon="palette">
+    Three selectable palettes are available from the character select screen, each changing Raziel's color scheme and the appearance of the Soul Reaver overlay.
+  </Accordion>
+</AccordionGroup>
+
+## What's still missing
+
+These are known gaps in the current version. They represent the most immediate development priorities:
+
+<AccordionGroup>
+  <Accordion title="Movements" icon="route">
+    Several mobility options have not yet been added. MUGEN characters typically include backdash, forward dash (as distinct from run), air dashes, and other movement specials. These are not yet implemented.
+  </Accordion>
+  <Accordion title="Animations" icon="clapperboard">
+    Many animation states are either missing or using placeholder frames. This is the most significant visible gap in the current build — some transitions and hit reactions use incomplete art.
+  </Accordion>
+  <Accordion title="Special moves and abilities" icon="bolt">
+    No special moves have been implemented yet. Raziel has no fireball-style projectiles, no command normals, and no super moves. This is a major missing feature for competitive use.
+  </Accordion>
+  <Accordion title="AI" icon="microchip">
+    The computer-controlled opponent AI has not been written. When playing against a CPU-controlled Raziel, the character will not act intelligently. AI scripting in MUGEN requires dedicated `.cmd` logic that has not yet been added.
+  </Accordion>
+  <Accordion title="Reaver variants" icon="gem">
+    Only the base Soul Reaver form is implemented. The original game features multiple Reaver enhancements (Fire Reaver, Electricity Reaver, etc.). Additional Reaver forms are planned but not yet in the character.
+  </Accordion>
+</AccordionGroup>
+
+## Future plans
+
+<Steps>
+  <Step title="Complete missing animations">
+    Fill in all placeholder and missing animation states — hit reactions, knockdowns, recoveries, and transitions. This is the most important near-term task for making the character feel polished.
+  </Step>
+  <Step title="Add special moves and abilities">
+    Implement Raziel's signature moves: soul-drain attacks, glide, wall-climb interactions, and other abilities drawn from the source game. These will require both new sprites and new state definitions in the `.cmd` and `.cns` files.
+  </Step>
+  <Step title="Add more mobility options">
+    Implement backdash, forward dash, and any additional movement specials appropriate for the character's agile wraith style.
+  </Step>
+  <Step title="Add additional Soul Reaver variants">
+    Implement the Fire Reaver, Electricity Reaver, and other Reaver enhancements as selectable palette or power-up states with distinct visual overlays and modified attacks.
+  </Step>
+  <Step title="Write AI logic">
+    Develop computer opponent AI in the `.cmd` file so Raziel can function as a competent CPU opponent in arcade and versus modes.
+  </Step>
+  <Step title="Raziel Vampire form (second character version)">
+    A second, separate character version featuring Raziel's pre-death vampire form. This would be a distinct character entry with its own sprite set, proportions, and move list reflecting his original vampire abilities.
+  </Step>
+  <Step title="Visual effects and polish">
+    Add hit sparks, energy effects, screen shake, and other visual feedback to make attacks feel impactful. Improve existing animations and transitions throughout.
+  </Step>
+</Steps>
+
+<Note>
+  This is a community passion project — there are no scheduled release dates or version milestones. Development continues as time allows. Contributions are welcome and will accelerate progress. See [Contributing](/project/contributing) to get involved.
+</Note>

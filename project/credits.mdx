@@ -1,0 +1,105 @@
+---
+title: "Credits"
+description: "Acknowledgements for the people, tools, and communities that made the Raziel MUGEN character possible."
+---
+
+Raziel for MUGEN is a community project built on the work of many contributors — coders, artists, toolmakers, and fans. This page documents everyone and everything that went into making it.
+
+<Note>
+  This character is completely free and open. You may use, modify, redistribute, and build upon it without restriction and without charge. See [Contributing](/project/contributing) for details.
+</Note>
+
+## Project author
+
+<Card title="Mugen's World" icon="user" href="https://github.com/mugensworld1996">
+  Created and maintains the Raziel MUGEN character. Responsible for sprite production, state coding, system design, and the Soul Reaver overlay system.
+  GitHub: **mugensworld1996**
+</Card>
+
+## Original code base
+
+<Card title="Raziel Seylos & Dave Rattlz" icon="code">
+  Provided the original playable 2D Raziel character for MUGEN. Their work formed the foundation on which this project was built — the starting point for all move states, hitboxes, and character logic before expansion into the current version.
+</Card>
+
+## Sprite generation tools
+
+The sprites in this character were created using an AI-assisted production pipeline. The following tools were used at various stages:
+
+<AccordionGroup>
+  <Accordion title="ChatGPT" icon="robot">
+    Used for generating base character artwork and iterating on pose references during the initial sprite design phase.
+  </Accordion>
+  <Accordion title="Grok" icon="robot">
+    Used for image generation tasks and exploring alternative visual styles for Raziel's spectral form.
+  </Accordion>
+  <Accordion title="Gemini" icon="robot">
+    Contributed to the image generation workflow, particularly for generating base frames that fed into the 3D conversion step.
+  </Accordion>
+  <Accordion title="A2E" icon="wand-magic-sparkles">
+    Used in the animation conversion stage to process and refine generated imagery into usable sprite frames.
+  </Accordion>
+  <Accordion title="Vidu" icon="film">
+    Used for generating animation sequences as video output, which were then extracted frame-by-frame into BMP sprites.
+  </Accordion>
+</AccordionGroup>
+
+### Sprite production pipeline
+
+The full workflow from concept to in-game BMP frames:
+
+<Steps>
+  <Step title="Create base artwork">
+    Generate a base character image using AI image tools (ChatGPT, Grok, Gemini).
+  </Step>
+  <Step title="Convert to 3D">
+    Transform the 2D base into a 3D representation to enable consistent multi-angle animation.
+  </Step>
+  <Step title="Generate animations">
+    Produce animated sequences for each move in video form using Vidu and A2E.
+  </Step>
+  <Step title="Convert video to frames">
+    Extract individual frames from the animation video output.
+  </Step>
+  <Step title="Convert frames to BMP">
+    Convert extracted frames to the BMP format required by MUGEN's SFF sprite system.
+  </Step>
+</Steps>
+
+## Original game
+
+<Card title="Legacy of Kain: Soul Reaver" icon="gamepad" href="https://en.wikipedia.org/wiki/Legacy_of_Kain:_Soul_Reaver">
+  Developed by **Crystal Dynamics** and published by **Eidos Interactive** (1999). Raziel, the Soul Reaver blade, and all associated characters and lore are the intellectual property of their respective rights holders. This project is a non-commercial fan work and is not affiliated with or endorsed by Crystal Dynamics or Eidos Interactive.
+</Card>
+
+## MUGEN engine
+
+<Card title="MUGEN" icon="bolt" href="http://www.elecbyte.com">
+  The MUGEN fighting game engine was created by **Elecbyte**. MUGEN is freeware and has been the foundation of the fan-made fighting game community for decades.
+</Card>
+
+## Community
+
+> MUGEN es de la comunidad para la comunidad.
+> *(MUGEN is from the community for the community.)*
+
+This project exists because of the MUGEN modding community — the countless creators who have shared characters, stages, screenpacks, and knowledge freely over the years. Raziel for MUGEN is offered in that same spirit: free to play, free to modify, free to build upon.
+
+## Usage and distribution rights
+
+<CardGroup cols={2}>
+  <Card title="Free to use" icon="check">
+    Download and add Raziel to any MUGEN roster at no cost, now and always.
+  </Card>
+  <Card title="Free to modify" icon="pencil">
+    Edit states, hitboxes, animations, or any part of the character files to suit your needs.
+  </Card>
+  <Card title="Free to redistribute" icon="share-nodes">
+    Share your modified version or include Raziel in a full game or character pack.
+  </Card>
+  <Card title="Sprites reusable" icon="images">
+    The generated sprites may be reused in other projects, MUGEN or otherwise.
+  </Card>
+</CardGroup>
+
+The only ask: credit the original authors (Mugen's World, Raziel Seylos, and Dave Rattlz) when distributing derivative works.

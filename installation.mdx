@@ -1,0 +1,115 @@
+---
+title: "Installation"
+description: "How to download Raziel and add him to your MUGEN roster."
+---
+
+This guide walks you through downloading the Raziel character files and adding him to an existing MUGEN installation.
+
+<Warning>
+  This character requires **MUGEN 1.0** specifically. It will not work correctly on WinMUGEN or MUGEN 1.1 due to differences in how palettes, storyboards, and CNS features are handled.
+</Warning>
+
+## Prerequisites
+
+Before you start, make sure you have:
+
+- A working **MUGEN 1.0** installation on your machine
+- Basic familiarity with your MUGEN folder structure (`chars/`, `data/`, etc.)
+
+## Installation steps
+
+<Steps>
+  <Step title="Download the character files">
+    Clone or download the repository from GitHub:
+
+    ```bash
+    git clone https://github.com/mugensworld1996/1.-Char_Raziel
+    ```
+
+    If you prefer not to use Git, open the repository in your browser and use **Code → Download ZIP**, then extract the archive.
+
+    The repository contains a folder called `Raziel_Char/`. This is the character folder you will place into MUGEN.
+  </Step>
+
+  <Step title="Copy Raziel_Char into your chars folder">
+    Move or copy the entire `Raziel_Char/` directory into your MUGEN installation's `chars/` folder:
+
+    ```
+    mugen/
+    └── chars/
+        └── Raziel_Char/       ← place the folder here
+            ├── raziel.def
+            ├── assets/
+            ├── logic/
+            └── palette/
+    ```
+
+    After this step, the path `chars/Raziel_Char/raziel.def` should exist in your MUGEN directory. That `.def` file is what MUGEN reads to load the character.
+  </Step>
+
+  <Step title="Add Raziel to your roster">
+    Open `data/select.def` in a text editor. Scroll to the `[Characters]` section and add the following line:
+
+    ```ini
+    [Characters]
+    Raziel_Char/raziel
+    ```
+
+    The entry points to the `.def` file relative to the `chars/` folder. Do not include the `.def` extension.
+
+    <Tip>
+      Palette slots in `select.def` are assigned in the order characters appear. MUGEN maps palette 1 to `raziel.act`, palette 2 to `raziel2.act`, and palette 3 to `raziel3.act`. Hold a direction on the character select screen to cycle through them — default bindings vary by your config, but typically left/right on the portrait selects the palette.
+    </Tip>
+  </Step>
+
+  <Step title="Launch MUGEN and verify">
+    Start MUGEN. Raziel should appear on the character select screen. Select him and enter a match to confirm:
+
+    - His sprites load without a blank or broken portrait
+    - He moves and attacks without crashing
+    - The Soul Reaver overlay is visible during idle, walk, and crouch when using palette 1 or 2
+
+    If MUGEN crashes on load, double-check that `Raziel_Char/` is in `chars/` and that the `select.def` entry matches the folder name exactly, including capitalisation.
+  </Step>
+</Steps>
+
+## Character definition reference
+
+Below is the full `raziel.def` file for reference. It shows how the character's assets, logic files, and palettes are wired together:
+
+```ini
+[Info]
+name="Raziel"
+displayname="Raziel"
+versiondate=17/02/2026
+mugenversion=1.0
+author="Mugens World"
+pal.defaults=1,2
+
+[Files]
+sprite=assets/raziel.sff
+sound=assets/raziel.snd
+anim=assets/raziel.air
+cmd=logic/raziel.cmd
+cns=logic/raziel_core.cns
+st=logic/raziel_core.cns
+stcommon=common1.cns
+pal1=palette/raziel.act
+pal2=palette/raziel2.act
+pal3=palette/raziel3.act
+
+[Arcade]
+intro.storyboard=assets/storyboards/intro/intro.def
+```
+
+All paths in `[Files]` are relative to the `Raziel_Char/` folder. Do not move individual files out of their subdirectories or the character will fail to load.
+
+## Palette reference
+
+| Slot | File | Description |
+|------|------|-------------|
+| 1 | `palette/raziel.act` | Default spectral palette |
+| 2 | `palette/raziel2.act` | Alternate colour variant |
+| 3 | `palette/raziel3.act` | Second alternate variant |
+
+`pal.defaults=1,2` in the `.def` file means MUGEN will default to palette 1 for player 1 and palette 2 for player 2 in a mirror match.

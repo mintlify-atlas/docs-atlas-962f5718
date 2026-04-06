@@ -1,0 +1,105 @@
+---
+title: 'Raziel — character overview'
+description: 'Stats, movement values, palette system, and playstyle summary for the Raziel MUGEN character.'
+---
+
+## Who is Raziel?
+
+Raziel is a wraith and revenant from *Legacy of Kain: Soul Reaver* (Crystal Dynamics, 1999). Once a vampire lieutenant of Kain, he was cast into the Underworld after being executed for the crime of evolving wings before his master. He clawed his way back as a spectral being — no longer truly alive, sustained only by devouring the souls of his enemies.
+
+In this MUGEN adaptation, Raziel appears in his iconic spectral blue form: gaunt, winged, and cloaked in tattered wrappings. The Soul Reaver — a legendary blade that slowly consumes both itself and its wielder — is rendered as a persistent visual overlay attached to him in every state, reinforcing his identity as both weapon and wielder.
+
+---
+
+## Character stats
+
+These values come from the `[Data]` and `[Size]` blocks in `raziel_core.cns`.
+
+### Core data
+
+| Stat | Value | Notes |
+|---|---|---|
+| Life | 1000 | Standard health pool |
+| Power | 3000 | Maximum super meter |
+| Attack | 100 | Base attack multiplier |
+| Defence | 100 | Base defence multiplier |
+| Fall defence increase | 50 | Bonus defence during knockdown |
+| Liedown time | 60 ticks | Frames spent knocked down |
+| Air juggle points | 15 | Maximum juggle budget |
+
+### Size and hitbox
+
+| Stat | Value |
+|---|---|
+| X scale | 0.08 |
+| Y scale | 0.08 |
+| Ground back | 15 px |
+| Ground front | 16 px |
+| Air back | 12 px |
+| Air front | 12 px |
+| Height | 60 px |
+| Attack distance | 160 px |
+| Projectile attack distance | 90 px |
+| Head position | -5, -90 |
+| Mid position | -5, -60 |
+
+---
+
+## Movement values
+
+These values come from the `[Velocity]` and `[Movement]` blocks in `raziel_core.cns`.
+
+| Action | Value |
+|---|---|
+| Walk forward | 2.2 |
+| Walk backward | -2.2 |
+| Run forward | 4.6, 0 |
+| Run backward | -4.5, -3.8 |
+| Neutral jump | 0, -8.5 |
+| Back jump | -2.55 |
+| Forward jump | 2.5 |
+| Y acceleration (gravity) | 0.30 |
+| Stand friction | 0.85 |
+| Crouch friction | 0.82 |
+
+### Air jump
+
+<Info>
+  Raziel has **1 air jump** available per airborne sequence. The air jump only activates when he is at least **35 px** above the ground (`airjump.height = 35`).
+</Info>
+
+---
+
+## Palette system
+
+Raziel ships with three palettes. Palettes 1 and 2 each have a dedicated Soul Reaver overlay sprite set. Palette 3 changes the character's color but does not yet have a separate Reaver overlay. See [Soul Reaver system](/character/soul-reaver-system) for details.
+
+| Palette | File | Default |
+|---|---|---|
+| Palette 1 | `raziel.act` | Yes (`pal.defaults = 1, 2`) |
+| Palette 2 | `raziel2.act` | Yes (`pal.defaults = 1, 2`) |
+| Palette 3 | `raziel3.act` | — |
+
+`pal.defaults = 1, 2` means player 1 defaults to palette 1 and player 2 defaults to palette 2 in a mirror match.
+
+---
+
+## Playstyle
+
+Raziel is a grounded all-around fighter. He has no specials or supers yet — the current build focuses on establishing a complete normal move set before layered mechanics are added.
+
+His key traits in the current build:
+
+- **Average mobility.** Run speed (4.6) and walk speed (2.2) are solid but not exceptional. His backward run has a slight upward arc (-3.8 vertical), giving him a small retreat hop.
+- **One air jump.** The single air jump extends his aerial game and allows modest cross-up setups, though the 35 px minimum height requirement prevents abuse at ground level.
+- **Soul Reaver presence.** The Soul Reaver overlay is visible in every animation state. While it does not yet have its own attack properties, it reinforces Raziel's identity and is the foundation for planned Soul Reaver special moves.
+- **Moderate damage output.** With an attack stat of 100 and normals in the 20–80 damage range, Raziel's damage is in line with standard MUGEN characters. His light punch deals 23 damage on hit.
+
+<CardGroup cols={2}>
+  <Card title="Move list" icon="list" href="/character/move-list">
+    Full input reference for all normals, movement options, throws, and taunt.
+  </Card>
+  <Card title="Soul Reaver system" icon="wand-magic-sparkles" href="/character/soul-reaver-system">
+    How the Soul Reaver overlay works: palette-driven animation IDs, Explod controllers, and technical implementation.
+  </Card>
+</CardGroup>

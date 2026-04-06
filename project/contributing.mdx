@@ -1,0 +1,118 @@
+---
+title: "Contributing"
+description: "How to download, modify, and contribute to the Raziel MUGEN character project."
+---
+
+Raziel for MUGEN is completely open. There are no restrictions on modifying, forking, or redistributing the project. All contributions — from small bug fixes to entirely new move sets — are welcome.
+
+> MUGEN es de la comunidad para la comunidad.
+> *(MUGEN is from the community for the community.)*
+
+<Info>
+  You do not need permission to modify or use this project. The [credits](/project/credits) page describes distribution terms in full. The only ask is that you credit the original authors when sharing derivative work.
+</Info>
+
+## How to contribute
+
+<Steps>
+  <Step title="Fork or download the repository">
+    Go to [github.com/mugensworld1996/1.-Char_Raziel](https://github.com/mugensworld1996/1.-Char_Raziel) and either clone the repository or download it as a ZIP.
+
+    ```bash
+    git clone https://github.com/mugensworld1996/1.-Char_Raziel.git
+    ```
+  </Step>
+  <Step title="Understand the key files">
+    Before making changes, read through the three most important files in the character package. See the [key files reference](#key-files) below for a breakdown of each.
+  </Step>
+  <Step title="Make your changes">
+    Edit states, add sprites, define new moves, or fix bugs. Test your changes by loading the character in MUGEN and running through affected states.
+  </Step>
+  <Step title="Test in MUGEN">
+    Place your modified `Raziel_Char/` folder in your MUGEN `chars/` directory and add it to `data/select.def`. Use MUGEN's debug mode (`Ctrl+D`) to inspect active states, hitboxes, and variable values while testing.
+
+    ```
+    chars/Raziel_Char/raziel.def
+    ```
+  </Step>
+  <Step title="Share your work">
+    Open a pull request on GitHub, or share your version in the MUGEN community forums and Discord servers. Credit Mugen's World, Raziel Seylos, and Dave Rattlz in your release notes.
+  </Step>
+</Steps>
+
+## Key files
+
+Familiarize yourself with these files before contributing. Most changes will involve one or more of them.
+
+<AccordionGroup>
+  <Accordion title="raziel.def" icon="file">
+    The character definition file. Declares the character's name, author, palette files, sprite file (SFF), sound file (SND), and which `.cns` and `.cmd` files to load. This is the entry point MUGEN reads first.
+
+    Relevant if you are: adding new palette files, renaming files, or changing the character's metadata.
+  </Accordion>
+  <Accordion title="raziel.cmd" icon="file-code">
+    The command input file. Defines all player input mappings — button assignments, directional commands (e.g., QCF, DP), and the command triggers that activate special moves. Also contains the AI logic block when it is eventually added.
+
+    Relevant if you are: adding new move inputs, tuning input leniency, or writing AI.
+  </Accordion>
+  <Accordion title="raziel_core.cns" icon="file-code">
+    The core constants and state file. Defines Raziel's base stats (health, attack, defence, velocity) and contains the state machine — every state controller for every move, animation, and system behavior. This is the largest and most important file in the character.
+
+    Relevant if you are: modifying existing moves, adding new states, fixing hitbox or hurtbox issues, or implementing new systems like the Soul Reaver overlay.
+  </Accordion>
+</AccordionGroup>
+
+## Areas that welcome contributions
+
+<CardGroup cols={2}>
+  <Card title="Sprite animations" icon="clapperboard">
+    Many animations are missing or incomplete. New sprites should be exported as BMP files following the established production pipeline (base image → 3D conversion → animation video → frame extraction → BMP). See [Sprites and animations](/development/sprites-and-animations) for the full workflow.
+  </Card>
+  <Card title="New move definitions" icon="bolt">
+    Special moves, command normals, and supers need to be defined in `raziel.cmd` (inputs) and `raziel_core.cns` (state logic). Start by studying an existing normal move state as a template.
+  </Card>
+  <Card title="Soul Reaver variants" icon="gem">
+    Additional Reaver forms (Fire, Electricity, etc.) are planned. New variants require palette files and modified overlay states in `raziel_core.cns`. See [Palettes](/development/palettes) for the existing palette structure.
+  </Card>
+  <Card title="Bug fixes" icon="bug">
+    Existing states may have hitbox gaps, incorrect frame durations, or animation glitches. Fixes to any state in `raziel_core.cns` are welcome — open a pull request with a description of what was wrong and what you changed.
+  </Card>
+  <Card title="AI scripting" icon="microchip">
+    Raziel has no AI yet. AI in MUGEN is written in the `[AI]` section of `raziel.cmd` using conditional state triggers. A working AI implementation is one of the most impactful contributions the project could receive.
+  </Card>
+  <Card title="Move list and documentation" icon="book-open">
+    If you add new moves or change existing behavior, updating these docs helps other contributors understand what exists. Open a pull request that includes both code and documentation changes together.
+  </Card>
+</CardGroup>
+
+## File structure overview
+
+```
+Raziel_Char/
+├── raziel.def              # Character definition (entry point)
+├── assets/
+│   ├── raziel.sff          # Sprite file (all BMP frames packed)
+│   ├── raziel.snd          # Sound file (hit sounds, voice)
+│   └── raziel.air          # Animation sequences
+├── logic/
+│   ├── raziel.cmd          # Input commands and AI
+│   └── raziel_core.cns     # States, stats, and move logic
+└── palette/
+    ├── raziel.act          # Palette 1 (default spectral blue)
+    ├── raziel2.act         # Palette 2
+    └── raziel3.act         # Palette 3
+```
+
+## Distribution terms
+
+When you share a modified version of this character:
+
+- Credit **Mugen's World** (original project author), **Raziel Seylos**, and **Dave Rattlz** (original code base) in your readme or release notes.
+- Keep the character free — no paywalls, no paid downloads.
+- Derivative works may be freely shared in any MUGEN community space or repository.
+
+There is no requirement to submit your changes back upstream, but pull requests are appreciated and will be reviewed.
+
+<Tip>
+  The fastest way to get a contribution merged is to keep it focused: one fix or one new feature per pull request, with a clear description of what changed and why.
+</Tip>

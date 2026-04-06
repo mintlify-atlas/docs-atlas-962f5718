@@ -1,0 +1,124 @@
+---
+title: 'Soul Reaver system'
+description: 'How the Soul Reaver persistent weapon overlay works — palette-driven animation IDs, Explod controllers, and technical implementation details.'
+---
+
+## What is the Soul Reaver overlay?
+
+The Soul Reaver is not a separate character or a projectile — it is a persistent **Explod sprite** attached to Raziel and drawn in front of him in every animation state. Because MUGEN character sprites do not include the weapon directly, the Reaver is layered on top of the base character using a dedicated set of sprite IDs and controlled through `Explod` state controllers.
+
+The result is that the Soul Reaver is always visible as a constant visual presence, matching Raziel's pose as he walks, crouches, and idles — reinforcing his identity as a character who is inseparable from his weapon.
+
+---
+
+## Palette-driven animation IDs
+
+The Soul Reaver overlay uses two distinct sets of sprite IDs, one per palette. The correct set is selected at runtime based on which palette is active.
+
+| Palette | Sprite ID range | Description |
+|---|---|---|
+| Palette 1 (`raziel.act`) | 7000–7007 | Primary palette Reaver |
+| Palette 2 (`raziel2.act`) | 7100–7107 | Secondary palette Reaver |
+
+This means that when a player selects palette 2 (e.g. player 2 in a mirror match), the Reaver overlay automatically uses the `7100`-series sprites, which are coloured to match that palette.
+
+---
+
+## State coverage
+
+The Reaver overlay has animations for each of Raziel's major base states:
+
+| State | Palette 1 anim | Palette 2 anim |
+|---|---|---|
+| Idle (standing) | 7000 | 7100 |
+| Walking | 7001 | 7101 |
+| Crouching | 7005 | 7105 |
+| Crouch start (transition in) | 7006 | 7106 |
+| Crouch end (transition out) | 7007 | 7107 |
+
+<Info>
+  Jump and attack states do not yet have dedicated Reaver overlay animations in the current build. Expanding state coverage is part of the planned roadmap.
+</Info>
+
+---
+
+## Technical implementation
+
+The overlay is implemented in `statedef -2` (the always-active global state controller block) in `raziel_core.cns`. Each relevant animation state has a paired `Explod` controller that spawns the Reaver sprite, and a `RemoveExplod` controller that removes it when Raziel leaves that state.
+
+### Key Explod parameters
+
+| Parameter | Value | Effect |
+|---|---|---|
+| `scale` | `0.20, 0.20` | Scales the Reaver sprite to match character scale |
+| `sprpriority` | `4` | Drawn in front of Raziel's base sprite |
+| `ownpal` | `1` | Uses its own palette (not inherited from character) |
+| `bindtime` | `-1` | Permanently bound to Raziel until removed |
+
+The `bindtime = -1` setting is what keeps the Reaver locked to Raziel's position for the entire duration of the state. Without it the Explod would detach and drift.
+
+### Explod lifecycle
+
+<Steps>
+  <Step title="State entered">
+    When Raziel enters a covered state (e.g. idle), the `statedef -2` block evaluates the `Anim` and `PalNo` triggers. If the correct animation is active and no Explod with the matching ID exists yet, the `Explod` controller spawns the Reaver overlay sprite with `bindtime = -1`.
+  </Step>
+  <Step title="Overlay active">
+    The Reaver sprite is drawn every frame at `sprpriority = 4`, in front of Raziel. It plays its own looping animation independently.
+  </Step>
+  <Step title="State exited">
+    A `RemoveExplod` controller keyed to the same ID fires when the animation changes away from the matched state, cleanly removing the old overlay before the next state spawns a new one.
+  </Step>
+</Steps>
+
+### Code example — palette 1 idle Reaver controller
+
+The following snippet shows the Reaver idle controller for palette 1 as it appears in `statedef -2` of `raziel_core.cns`:
+
+```ini raziel_core.cns — statedef -2, P1 idle Reaver
+[State -2, Reaver P1]
+type = Explod
+triggerall = Anim = 0
+triggerall = PalNo = 1
+trigger1 = NumExplod(7000) = 0
+ID = 7000
+anim = 7000
+postype = p1
+pos = -58,-23
+bindtime = -1
+removetime = -1
+sprpriority = 4
+scale = 0.20,0.20
+ownpal = 1
+```
+
+The `triggerall = Anim = 0` condition matches the idle animation. `PalNo = 1` ensures this controller only fires for palette 1. `NumExplod(7000) = 0` prevents duplicate spawning — the Explod is only created if one with ID 7000 doesn't already exist.
+
+---
+
+## Removal on state exit
+
+Each state that spawns a Reaver Explod also includes a paired `RemoveExplod` keyed to the same ID. For example, when Raziel leaves the idle animation:
+
+```ini raziel_core.cns — statedef -2, P1 idle Reaver removal
+[State -2, Remove Reaver P1]
+type = RemoveExplod
+trigger1 = Anim != 0
+trigger2 = PalNo != 1
+ID = 7000
+```
+
+`trigger1 = Anim != 0` fires when Raziel moves away from the idle animation. `trigger2 = PalNo != 1` removes the overlay if the palette changes. This two-trigger removal pattern is repeated for every covered state and both palette branches.
+
+---
+
+## Planned future work
+
+<Tip>
+  The Soul Reaver overlay system is designed to be extended. The following are planned but not yet implemented:
+</Tip>
+
+- Reaver overlay animations for jump, attack, and hit states
+- Additional Reaver variants for palette 3 (`raziel3.act`)
+- Soul Reaver special moves that leverage the overlay as an active hitbox rather than a purely visual element
+- A charged or empowered Reaver state triggered by super meter thresholds

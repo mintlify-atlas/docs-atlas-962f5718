@@ -1,97 +1,61 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "Raziel — MUGEN Character"
+description: "Fan-made MUGEN fighting game character based on Raziel from Legacy of Kain: Soul Reaver. Spectral form, Soul Reaver weapon system, and a full normal move set."
 ---
 
-## Setting up
+Raziel is a fan-made playable character for the **MUGEN** fighting game engine, based on the protagonist of *Legacy of Kain: Soul Reaver*. This version features Raziel in his **spectral (blue) form**, complete with the iconic Soul Reaver blade, multiple palette variants, and a full set of standing, crouching, and aerial attacks.
 
-Get your documentation site up and running in minutes.
+The project is community-driven, completely free, and open for modification and redistribution.
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={2}>
+  <Card title="Introduction" icon="book-open" href="/introduction">
+    Learn about the project, its philosophy, and what's currently implemented.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Installation" icon="download" href="/installation">
+    Add Raziel to your MUGEN roster in a few simple steps.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Move List" icon="gamepad" href="/character/move-list">
+    Full reference for all normals, throws, and special inputs.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="Soul Reaver System" icon="wand-magic-sparkles" href="/character/soul-reaver-system">
+    How the palette-driven Reaver weapon overlay works in-game.
   </Card>
-</Columns>
+</CardGroup>
 
-## Create beautiful pages
+## Get started
 
-Everything you need to create world-class documentation.
+<Steps>
+  <Step title="Download the character files">
+    Clone or download the repository from [GitHub](https://github.com/mugensworld1996/1.-Char_Raziel). The character folder is `Raziel_Char/`.
+  </Step>
+  <Step title="Copy into your MUGEN chars folder">
+    Place the `Raziel_Char` directory inside your MUGEN installation's `chars/` folder so the path reads `chars/Raziel_Char/raziel.def`.
+  </Step>
+  <Step title="Add Raziel to your roster">
+    Open `data/select.def` in your MUGEN installation and add `Raziel_Char/raziel` under the `[Characters]` section.
+  </Step>
+  <Step title="Launch MUGEN and play">
+    Start MUGEN and select Raziel from the character select screen. Use palette 1 or 2 to switch between Reaver variants.
+  </Step>
+</Steps>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+<Note>
+  This character is in early development. Some animations and special moves are still being added. See the [Roadmap](/project/roadmap) for what's planned next.
+</Note>
 
-## Need inspiration?
+## What's inside
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<CardGroup cols={2}>
+  <Card title="Character overview" icon="user" href="/character/overview">
+    Stats, palette options, and in-game properties.
+  </Card>
+  <Card title="File structure" icon="folder-open" href="/development/file-structure">
+    A guide to every file in the character package.
+  </Card>
+  <Card title="Adding moves" icon="plus" href="/development/adding-moves">
+    How to extend the character with new attacks.
+  </Card>
+  <Card title="Credits" icon="heart" href="/project/credits">
+    The people and tools that made this project possible.
+  </Card>
+</CardGroup>

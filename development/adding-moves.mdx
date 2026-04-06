@@ -1,0 +1,141 @@
+---
+title: "Adding moves"
+description: "Step-by-step guide to adding a new attack or special move to Raziel in MUGEN."
+---
+
+Adding a move to a MUGEN character involves four files working together: `raziel.cmd` (input), a `.cns` file (state logic), `raziel.air` (animation), and `raziel.sff` (sprites). This guide walks through the full process using a concrete example: a **quarter-circle-forward + x** special move.
+
+<Warning>
+  Several `.cns` files (`raziel_specials.cns`, `raziel_normals.cns`, `raziel_throws.cns`) are currently placeholders with no content. Before adding new states to them, add a `cns=logic/filename.cns` line to `raziel.def` so MUGEN loads the file.
+</Warning>
+
+## Workflow overview
+
+<Steps>
+  <Step title="Define the input command in raziel.cmd">
+    Add a `[Command]` block that maps a button sequence to a name.
+
+    ```ini raziel.cmd
+    [Command]
+    name = "QCF_x"
+    command = ~D, DF, F, x
+    time = 20
+    ```
+
+    The `~D` means "release down first" — the standard quarter-circle motion. `time = 20` gives the player 20 game-ticks to complete the input.
+  </Step>
+  <Step title="Add a state entry trigger in raziel.cmd">
+    Inside `[Statedef -1]` (the always-active state), add a `ChangeState` block that fires when your command is matched:
+
+    ```ini raziel.cmd
+    [State -1, Spectral Slash]
+    type = ChangeState
+    value = 1000
+    triggerall = command = "QCF_x"
+    triggerall = power >= 0
+    trigger1 = statetype = S
+    trigger1 = ctrl
+    trigger2 = statetype = C
+    trigger2 = ctrl
+    ```
+
+    `value = 1000` is the state number you will define next. Place this block **before** any single-button triggers (like `[State -1, Stand Light Punch]`) so it takes priority.
+  </Step>
+  <Step title="Define the state in a .cns file">
+    Add `[Statedef 1000]` and its controller(s) to `raziel_specials.cns` (or `raziel_core.cns` while the file is a placeholder):
+
+    ```ini raziel_specials.cns
+    [Statedef 1000]
+    type    = S
+    movetype= A
+    physics = S
+    juggle  = 4
+    ctrl = 0
+    velset = 0, 0
+    anim = 1000
+    poweradd = 50
+
+    [State 1000, HitDef]
+    type = HitDef
+    trigger1 = AnimElem = 3
+    attr = S, SA
+    damage = 60, 10
+    animtype = Medium
+    guardflag = MA
+    hitflag = MAF
+    pausetime = 10, 10
+    sparkno = 2
+    ground.type = High
+    ground.slidetime = 10
+    ground.hittime = 18
+    ground.velocity = -6
+    air.velocity = -2, -4
+
+    [State 1000, End]
+    type = ChangeState
+    trigger1 = AnimTime = 0
+    value = 0
+    ctrl = 1
+    ```
+  </Step>
+  <Step title="Create the animation in raziel.air">
+    Add a new action block for the move. Reference sprite group and image numbers that you will import in the next step:
+
+    ```text raziel.air
+    [Begin Action 1000]
+    ; group, image, x-offset, y-offset, duration
+    0, 1000, 0, 0, 4
+    0, 1001, 0, 0, 4
+    0, 1002, 0, 0, 6
+    0, 1003, 0, 0, 4
+    0, 1004, 0, 0, 4
+    -1
+    ```
+  </Step>
+  <Step title="Import sprites into raziel.sff">
+    Using Fighter Factory or a compatible SFF editor:
+    - Import your BMP frames
+    - Assign them group 0, images 1000–1004 (matching the `.air` block above)
+    - Set the axis point (alignment) for each frame
+    - Save `assets/raziel.sff`
+  </Step>
+</Steps>
+
+## State numbering conventions
+
+MUGEN uses state number ranges to organize move categories. Follow these ranges to stay compatible:
+
+| Range | Category |
+|---|---|
+| 0–199 | Common states (stand, walk, jump, crouch) |
+| 190–199 | Intro, taunt, win |
+| 200–299 | Standing normals |
+| 400–499 | Crouching normals |
+| 600–699 | Aerial normals |
+| 700–799 | Custom common states |
+| 800–899 | Throws |
+| 1000–1999 | Special moves |
+| 3000–3999 | Super moves |
+
+## Adding a super move
+
+Super moves work the same way, but check `power` before firing and use a double motion:
+
+```ini raziel.cmd
+[Command]
+name = "2QCF_x"
+command = ~D, DF, F, D, DF, F, x
+time = 30
+
+[State -1, Soul Devour]
+type = ChangeState
+value = 3000
+triggerall = command = "2QCF_x"
+triggerall = power >= 1000
+trigger1 = statetype = S
+trigger1 = ctrl
+```
+
+<Tip>
+  Use `poweradd` in your `[Statedef]` to grant power when a move connects. The character's maximum power is set to `3000` in `raziel_core.cns`.
+</Tip>

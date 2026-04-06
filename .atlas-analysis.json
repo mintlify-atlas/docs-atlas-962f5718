@@ -1,0 +1,53 @@
+{
+  "projectType": "general",
+  "projectName": "Raziel — MUGEN Character",
+  "projectDescription": "A fan-made MUGEN fighting game character based on Raziel from Legacy of Kain: Soul Reaver, featuring spectral-form sprites, multiple Soul Reaver palette variants, and a full set of normal, crouching, aerial, and throw attacks.",
+  "theme": "aspen",
+  "primaryColor": "#4A90D9",
+  "lightColor": "#7AB8F5",
+  "darkColor": "#1A3A5C",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": ["introduction", "installation"]
+          },
+          {
+            "group": "Character Guide",
+            "pages": ["character/overview", "character/move-list", "character/soul-reaver-system"]
+          },
+          {
+            "group": "Development",
+            "pages": ["development/file-structure", "development/sprites-and-animations", "development/adding-moves", "development/palettes"]
+          },
+          {
+            "group": "Project",
+            "pages": ["project/credits", "project/roadmap", "project/contributing"]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Raziel in spectral (blue) form from Legacy of Kain: Soul Reaver",
+    "Full normal move set: standing, crouching, and aerial attacks",
+    "Soul Reaver weapon system with palette-dependent visual overlays",
+    "Multiple palette variants (3 palettes) affecting character and Reaver appearance",
+    "AI-generated sprites created from scratch using modern tooling",
+    "Standard MUGEN 1.0 character format with .def, .cns, .cmd, .air, .sff, and .snd files",
+    "Intro storyboard for arcade mode"
+  ],
+  "publicApiSurface": [
+    "raziel.def — main character definition file",
+    "raziel.cmd — command/input definitions (Run Fwd, Run Back, Throw, Taunt, 6 stand normals, 6 crouch normals, 6 air normals)",
+    "raziel_core.cns — core data (life=1000, power=3000, attack=100, defence=100), state definitions, and Reaver explod system",
+    "raziel_reaver_visuals.cns — Soul Reaver visual overlay state controllers",
+    "raziel.sff — sprite file",
+    "raziel.snd — sound file",
+    "raziel.air — animation file",
+    "palette/raziel.act, raziel2.act, raziel3.act — palette files"
+  ]
+}

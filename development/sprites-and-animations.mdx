@@ -1,0 +1,102 @@
+---
+title: "Sprites and animations"
+description: "How Raziel's sprites are created from scratch using AI tools and compiled into MUGEN-compatible files."
+---
+
+All of Raziel's sprites are created **from scratch** using a combination of AI generation tools and manual editing — there are no ripped assets from the original game. The source files live in the `Sprites/` directory as BMP images; they are then compiled into `assets/raziel.sff` for MUGEN to use.
+
+## Sprite creation pipeline
+
+<Steps>
+  <Step title="Create base sprites">
+    Design the base character poses using AI image generation tools (ChatGPT, Grok, Gemini). These establish the silhouette, proportions, and style for each animation.
+  </Step>
+  <Step title="Convert to 3D style">
+    Process the flat base images through tools like A2E or Vidu to give them a stylized 3D appearance consistent with the Soul Reaver aesthetic.
+  </Step>
+  <Step title="Generate animations">
+    Use AI animation tools to produce smooth motion between poses — walk cycles, attack arcs, idle breathing, etc.
+  </Step>
+  <Step title="Convert to video">
+    Export the animation sequence as a video file for frame-accurate extraction.
+  </Step>
+  <Step title="Extract frames">
+    Use a frame extraction tool to pull individual frames from the video as separate image files.
+  </Step>
+  <Step title="Convert to BMP for MUGEN">
+    Convert the extracted frames to 256-color indexed BMP format — the format MUGEN's SFF compiler expects. These become the files in `Sprites/`.
+  </Step>
+</Steps>
+
+## Tools used
+
+<CardGroup cols={2}>
+  <Card title="ChatGPT" icon="robot">
+    Used for generating base sprite concepts and style references.
+  </Card>
+  <Card title="Grok" icon="robot">
+    AI-assisted sprite iteration and refinement.
+  </Card>
+  <Card title="Gemini" icon="robot">
+    Additional AI generation for poses and expressions.
+  </Card>
+  <Card title="A2E" icon="wand-magic-sparkles">
+    Converts still images to animated sequences.
+  </Card>
+  <Card title="Vidu" icon="video">
+    AI video generation used to produce animation clips for frame extraction.
+  </Card>
+  <Card title="Frame extraction tools" icon="film">
+    Splits video output into individual frames ready for BMP conversion.
+  </Card>
+</CardGroup>
+
+## Source sprite organization
+
+The `Sprites/` folder organizes source files by animation category. For example, crouching frames are in `Sprites/Agachado/` with both final BMP files and a subdirectory of animation frames:
+
+```text
+Sprites/
+├── main.png               — Character portrait / reference image
+├── 01.pcx                 — Additional reference
+└── Agachado/              — "Crouching" in Spanish
+    ├── 01.bmp ... 23.bmp  — Individual crouch pose frames
+    └── Agachado anim/     — Crouch animation sequence frames
+        ├── scene00001.bmp
+        ├── scene00002.bmp
+        └── ...
+```
+
+When adding new animations, follow this pattern: create a named subdirectory under `Sprites/` for the move category, then place the final BMP frames inside it.
+
+## Compiling sprites into .sff
+
+MUGEN does not read BMP files directly — they must be compiled into a `.sff` (Sprite File Format) archive. Use [Fighter Factory](http://fighterfactory.virtualltek.com/) or a compatible SFF editor to:
+
+1. Import your BMP frames
+2. Assign each frame a **group number** and **image number** (these are referenced in the `.air` animation file)
+3. Set the correct alignment axis for each sprite
+4. Export/save as `assets/raziel.sff`
+
+<Tip>
+  Keep sprite group numbers consistent with MUGEN conventions — e.g., group 0 for standing idle, group 5 for walk, group 10 for crouch. Check `raziel.air` to see which group/image numbers are already in use.
+</Tip>
+
+## Defining animations in .air
+
+The `assets/raziel.air` file links sprite frames into animation sequences. Each action block looks like:
+
+```text raziel.air (example)
+[Begin Action 200]
+; group, image, x-offset, y-offset, duration
+0,200, 0,0, 3
+0,201, 0,0, 3
+0,202, 0,0, 5
+-1
+```
+
+The action number (`200`) matches the `anim = 200` line in the corresponding `[Statedef 200]` in `raziel_core.cns`. The `-1` at the end loops the animation.
+
+<Info>
+  The character's sprite scale is set in `raziel_core.cns`: `xscale = .08` and `yscale = .08`. This scales the raw sprites down to the correct in-game size.
+</Info>
